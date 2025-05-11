@@ -16,5 +16,8 @@
     "bugs": {
         "url": "https://github.com/DanyaBooba/nodejs-architecture/issues"
     },
-    "homepage": "https://github.com/DanyaBooba/nodejs-architecture#readme"
+    "homepage": "https://github.com/DanyaBooba/nodejs-architecture#readme",
+    "dependencies": {
+        "express": "^5.1.0"
+    }
 }
