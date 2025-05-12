@@ -11,7 +11,38 @@ class UserModel {
         return rows.length === 0 ? null : rows[0];
     }
 
-    // ... другие методы
+    static async create(firstName, lastName, username) {
+        const [result] = await pool.query(
+            'INSERT INTO users (firstName, lastName, username) VALUES (?, ?, ?)',
+            [firstName, lastName, username]
+        );
+        return result.insertId;
+    }
+
+    static async updateFull(id, { firstName, lastName, username }) {
+        const [result] = await pool.query(
+            'UPDATE users SET firstName = ?, lastName = ?, username = ? WHERE id = ?',
+            [firstName, lastName, username, id]
+        );
+        return result.affectedRows > 0;
+    }
+
+    static async update(id, newData) {
+        const fields = Object.keys(newData).map(key => `${key} = ?`).join(', ');
+        const values = Object.values(newData);
+        values.push(id);
+
+        const [result] = await pool.query(
+            `UPDATE users SET ${fields} WHERE id = ?`,
+            values
+        );
+        return result.affectedRows > 0;
+    }
+
+    static async delete(id) {
+        const [result] = await pool.query('DELETE FROM users WHERE id = ?', [id]);
+        return result.affectedRows > 0;
+    }
 }
 
 module.exports = UserModel;
