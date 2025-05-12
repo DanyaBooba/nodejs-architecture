@@ -25,6 +25,38 @@ class UserController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    static async updateUserFull(req, res) {
+        try {
+            const userId = req.params.id
+            const { firstName, lastName, username } = req.body
+            const statusUpdate = await UserModel.updateFull(userId, { firstName, lastName, username });
+            res.status(201).json({ status: statusUpdate });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    static async updateUser(req, res) {
+        try {
+            const userId = req.params.id
+            const userData = req.body
+            const statusUpdate = await UserModel.update(userId, userData);
+            res.status(201).json({ status: statusUpdate });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
+
+    static async delete(req, res) {
+        try {
+            const userId = req.params.id
+            const statusDelete = await UserModel.delete(userId)
+            res.status(201).json({ status: statusDelete });
+        } catch (error) {
+            res.status(400).json({ error: error.message });
+        }
+    }
 }
 
 module.exports = UserController;
