@@ -11,10 +11,10 @@ class UserModel {
         return rows.length === 0 ? null : rows[0];
     }
 
-    static async create(firstName, lastName, username) {
+    static async create({ firstName, lastName, username, email, password }) {
         const [result] = await pool.query(
-            'INSERT INTO users (firstName, lastName, username) VALUES (?, ?, ?)',
-            [firstName, lastName, username]
+            'INSERT INTO users (firstName, lastName, username, email, password) VALUES (?, ?, ?, ?, ?)',
+            [firstName, lastName, username, email, password]
         );
         return result.insertId;
     }

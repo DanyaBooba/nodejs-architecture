@@ -18,8 +18,8 @@ class UserController {
 
     static async createUser(req, res) {
         try {
-            const { firstName, lastName, username } = req.body;
-            const userId = await UserModel.create(firstName, lastName, username);
+            const { firstName, lastName, username, email, password } = req.body;
+            const userId = await UserModel.create({ firstName, lastName, username, email, password });
             res.status(201).json({ id: userId });
         } catch (error) {
             res.status(400).json({ error: error.message });
