@@ -57,6 +57,24 @@ class UserController {
             res.status(400).json({ error: error.message });
         }
     }
+
+    static async getProfile(req, res) {
+        try {
+            // userId берется из middleware authenticate
+            const user = await UserModel.getById(req.userId);
+
+            if (!user) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            // Не возвращаем пароль даже в хэшированном виде
+            const { password, ...userData } = user;
+            res.json(userData);
+
+        } catch (error) {
+            res.status(500).json({ error: 'Server error' });
+        }
+    }
 }
 
 module.exports = UserController;

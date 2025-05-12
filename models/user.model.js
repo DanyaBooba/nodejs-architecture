@@ -2,12 +2,12 @@ const pool = require('../config/db');
 
 class UserModel {
     static async getAll() {
-        const [rows] = await pool.query('SELECT * FROM users');
+        const [rows] = await pool.query(`SELECT ${this._fieldsToSelect()} FROM users`);
         return rows;
     }
 
     static async getById(id) {
-        const [rows] = await pool.query('SELECT * FROM users WHERE id = ?', [id]);
+        const [rows] = await pool.query(`SELECT ${this._fieldsToSelect()} FROM users WHERE id = ?`, [id]);
         return rows.length === 0 ? null : rows[0];
     }
 
@@ -42,6 +42,10 @@ class UserModel {
     static async delete(id) {
         const [result] = await pool.query('DELETE FROM users WHERE id = ?', [id]);
         return result.affectedRows > 0;
+    }
+
+    static _fieldsToSelect() {
+        return ['firstName', 'lastName', 'username', 'email'].join(',')
     }
 }
 
